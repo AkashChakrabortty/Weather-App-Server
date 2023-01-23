@@ -22,7 +22,12 @@ async function run() {
       .db("Weather-App")
       .collection("allCitiesInfo");
   try {
-   
+   app.get("/allCities/:skip", async(req, res) => {
+    const skip = parseInt( req.params.skip)
+    const cursor = allCitiesCollection.find({}).skip(skip).limit(10);
+    const result = await cursor.toArray();
+     res.send(result);
+   });
   } catch {}
 }
 run().catch((err) => console.log(err));
